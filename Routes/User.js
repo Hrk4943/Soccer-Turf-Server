@@ -37,7 +37,7 @@ router.get('/payment/:id', paymentProcess);
 router.post("/booking-success/:id", bookingSuccess);
 router.get('/profile',userAuthentication,userProfile)
 router.get('/bookingList',jwtMiddleware,viewBookings)
-router.post('/profile',updateProfile)
+router.put('/profile',updateProfile)
 router.post('/cancelBooking',jwtMiddleware,cancelBooking)
 router.get('/wallet',jwtMiddleware,wallet)
 router.get('/authenticate',userCheck)

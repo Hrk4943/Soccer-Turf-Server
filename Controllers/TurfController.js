@@ -203,20 +203,56 @@ export const viewProfile = async (req, res) => {
     }
 };
 
-export const updateTurfProfile = async (req, res) => {
+
+export const updateTurfProfile=async(req,res)=>{
     try {
-        const turfOwnerId = req.body.data._id
-        const updateData = req.body.data
+        const{
+            _id,
+    //   courtName,
+      email,
+      disrict,
+      state,
+      location,
+      number,
+      closingTime,
+      openingTime,
+      price,  
+        }=req.body.data;
         const image = req.body.image
         const response = await uploadMultipleImages(image)
-        const updatedTurfOwner = { _id: turfOwnerId, images: response }
-        const updateTurf = await turfModel.updateOne({ _id: turfOwnerId }, updatedTurfOwner)
-        res.status(200).json({ message: "Update successfully" })
+        const updateDataturf = await turfModel.findByIdAndUpdate(_id, {
+            disrict:disrict,
+            state:state,
+            email:email,
+            location:location,
+            number: number,
+            openingTime: openingTime.toString(),
+            closingTime: closingTime.toString(),
+            price: price.toString(),
+          },response);
+          res.status(200).json({ message: "Update successfully" })
     } catch (error) {
         console.log(error);
-        res.status(500).json(error?.response?.data?.message);
+     res.status(500).json(error?.response?.data?.message);
     }
-};
+}
+
+
+// export const updateTurfProfile = async (req, res) => {
+//     try {
+//         const turfOwnerId = req.body.data._id
+//         const updateData = req.body.data
+//         console.log(updateData,'//////')
+//         const image = req.body.image
+//         const response = await uploadMultipleImages(image)
+//         const updatedTurfOwner = { _id: turfOwnerId, images: response }
+//         const updateTurf = await turfModel.updateOne({ _id: turfOwnerId }, updatedTurfOwner)
+//         res.status(200).json({ message: "Update successfully" })
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json(error?.response?.data?.message);
+//     }
+// };
 
 
 export const totalCount = async (req, res) => {
@@ -247,8 +283,7 @@ export const totalCount = async (req, res) => {
         console.log(dayWiseBookings,"bbbb");
         const filterData = dayWiseBookings.filter((item) => {
             return item._id.turf == turf
-        })
-        const formattedData = filterData.map((item) => {
+        }).map((item) => {
            
             const date = new Date(item._id.bookDate);
             const day = date.getDate().toString().padStart(2, '0');
@@ -263,7 +298,7 @@ export const totalCount = async (req, res) => {
        
         const userCount = await bookingModel.find({ turfId }).distinct('user')
         
-        res.status(200).json({ dayWiseBookings: formattedData, userCount: userCount?.length, bookingCount })
+        res.status(200).json({ dayWiseBookings: filterData, userCount: userCount?.length, bookingCount })
     } catch (error) {
         res.status(500).json(error?.response?.data)
     }

@@ -21,7 +21,7 @@ router.post('/resendOtp',resendOtp)
 router.get('/authenticate',turfAuth)
 router.get('/bookings',turfMiddleware,togetBooking)
 router.get('/profile',turfMiddleware,viewProfile)
-router.post('/updateProfile',turfMiddleware,updateTurfProfile)
+router.put('/updateProfile',turfMiddleware,updateTurfProfile)
 router.get('/getCounts',turfMiddleware,totalCount)
 
 

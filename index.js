@@ -38,7 +38,7 @@ app.use(passport.session())
 
 app.use(
     cors({
-        origin:"http://127.0.0.1:8000",
+        origin:"https://soccer-turf.netlify.app/",
         methods: "GET,POST,PUT,DELETE,PATCH",
         credentials:true,
         allowedHeaders:[

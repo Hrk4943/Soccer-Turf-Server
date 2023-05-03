@@ -36,19 +36,19 @@ app.use(cookieParser())
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(cors())
-// app.use(
-//     cors({
-//         origin:"https://soccer-turf.netlify.app/",
-//         methods: "GET,POST,PUT,DELETE,PATCH",
-//         credentials:true,
-//         allowedHeaders:[
-//             'Content-type',
-//             'Access',
-//             'Authorization'
-//         ]
-//     })
-// )
+// app.use(cors())
+app.use(
+    cors({
+        origin:"https://soccer-turf.netlify.app/",
+        methods: "GET,POST,PUT,DELETE,PATCH",
+        credentials:true,
+        allowedHeaders:[
+            'Content-type',
+            'Access',
+            'Authorization'
+        ]
+    })
+)
 
 
 

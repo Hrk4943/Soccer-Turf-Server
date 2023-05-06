@@ -229,7 +229,8 @@ export const updateTurfProfile=async(req,res)=>{
             openingTime: openingTime.toString(),
             closingTime: closingTime.toString(),
             price: price.toString(),
-          },response);
+            images:response
+          });
           res.status(200).json({ message: "Update successfully" })
     } catch (error) {
         console.log(error);

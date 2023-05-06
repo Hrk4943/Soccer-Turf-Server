@@ -133,35 +133,35 @@ export const resendOtp = (req, res) => {
     }
 }
 
-export const turfAuth = (req, res) => {
-    let token = req.headers.authorization
-    try {
-        if (token) {
-            jwt.verify(token, process.env.TOKEN_SECRET, async (err, result) => {
-                if (!err) {
-                    let user = await turfModel.findOne({ _id: result.turfOwnerId })
-                    if (user) {
-                        if (!user.block) {
-                            res.status(200).json({ authorization: true })
-                        } else {
-                            res.status(401).json({ authorization: false })
-                        }
-                    } else {
-                        res.status(401).json({ authorization: false })
-                    }
-                } else {
-                    res.status(401).json({ authorization: false })
-                }
-            })
-        } else {
-            res.status(401).json({ authorization: false })
-        }
-    }
-    catch (err) {
-        res.status(500)
-    }
+// export const turfAuth = (req, res) => {
+//     let token = req.headers.authorization
+//     try {
+//         if (token) {
+//             jwt.verify(token, process.env.TOKEN_SECRET, async (err, result) => {
+//                 if (!err) {
+//                     let user = await turfModel.findOne({ _id: result.turfOwnerId })
+//                     if (user) {
+//                         if (!user.block) {
+//                             res.status(200).json({ authorization: true })
+//                         } else {
+//                             res.status(401).json({ authorization: false })
+//                         }
+//                     } else {
+//                         res.status(401).json({ authorization: false })
+//                     }
+//                 } else {
+//                     res.status(401).json({ authorization: false })
+//                 }
+//             })
+//         } else {
+//             res.status(401).json({ authorization: false })
+//         }
+//     }
+//     catch (err) {
+//         res.status(500)
+//     }
 
-}
+// }
 
 
 // export const togetBooking = async (req, res) => {

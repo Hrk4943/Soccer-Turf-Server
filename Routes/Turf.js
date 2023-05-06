@@ -5,7 +5,7 @@ import {
     turfOtpSend,
     logIn,
     resendOtp,
-    // turfAuth,
+    turfAuth,
     togetBooking,
     viewProfile,
     updateTurfProfile,
@@ -18,7 +18,7 @@ router.post('/turfOtp',turfOtpSend)
 router.post('/turf-signUp',turfRegistration)
 router.post('/login',logIn)
 router.post('/resendOtp',resendOtp)
-// router.get('/authenticate',turfAuth)
+router.get('/authenticate',turfAuth)
 router.get('/bookings',turfMiddleware,togetBooking)
 router.get('/profile',turfMiddleware,viewProfile)
 router.put('/updateProfile',turfMiddleware,updateTurfProfile)

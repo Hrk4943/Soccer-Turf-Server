@@ -35,7 +35,6 @@ export const turfAuthentication = (req,res,next)=>{
     if(req.headers.authorization){
         let token = req.headers.authorization
         jwt.verify(token, process.env.TOKEN_SECRET,(err,result)=>{
-            console.log(result,'99999999')
             if(err){
                 res.status(401).json({authorization:false})
             }else{

@@ -187,7 +187,7 @@ export const togetBooking = async (req, res) => {
         res.status(200).json(bookings);
     } catch (error) {
         console.log(error);
-        res.status(500).json(error?.response?.data);
+        res.status(500).json(error.response.data);
     }
 }
 
@@ -199,7 +199,7 @@ export const viewProfile = async (req, res) => {
         res.status(200).json({ turf });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error?.response?.data?.message);
+        res.status(500).json(error.response.data.message);
     }
 };
 
@@ -234,7 +234,7 @@ export const updateTurfProfile=async(req,res)=>{
           res.status(200).json({ message: "Update successfully" })
     } catch (error) {
         console.log(error);
-     res.status(500).json(error?.response?.data?.message);
+     res.status(500).json(error.response.data.message);
     }
 }
 
@@ -298,7 +298,7 @@ export const totalCount = async (req, res) => {
         const userCount = await bookingModel.find({ turfId }).distinct('user') 
         res.status(200).json({ dayWiseBookings: filterData, userCount: userCount?.length, bookingCount })
     } catch (error) {
-        res.status(500).json(error?.response?.data)
+        res.status(500).json(error.response.data)
     }
 }
 

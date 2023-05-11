@@ -296,7 +296,7 @@ export const totalCount = async (req, res) => {
             };
         });
         const userCount = await bookingModel.find({ turfId }).distinct('user') 
-        res.status(200).json({ dayWiseBookings: filterData, userCount: userCount?.length, bookingCount })
+        res.status(200).json({ dayWiseBookings: filterData, userCount: userCount.length, bookingCount })
     } catch (error) {
         res.status(500).json(error.response.data)
     }

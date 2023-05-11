@@ -221,7 +221,7 @@ export const toViewTurf = async (req, res) => {
 
 export const bookingSlot = async (req, res) => {
     const ID = req.params.id
-    let date = req.params.date   
+    let date = req.params.date
     const bookDate = new Date(date)
     bookDate.setHours(0);
     bookDate.setMinutes(0);
@@ -239,9 +239,9 @@ export const bookingSlot = async (req, res) => {
 export const bookTurf = async (req, res) => {
     try {
         let token = req.headers.authorization
-        const key =  jwt.verify(token, process.env.TOKEN_SECRET)
-        const { ID, date, time } = req.body;  
-        const turf = await turfModel.findById({ _id:ID });
+        const key = jwt.verify(token, process.env.TOKEN_SECRET)
+        const { ID, date, time } = req.body;
+        const turf = await turfModel.findById({ _id: ID });
         const price = turf?.price;
         const userId = key.userId;
         const bookDate = new Date(date);
@@ -256,7 +256,6 @@ export const bookTurf = async (req, res) => {
             time,
             price,
         });
-        console.log(newBooking)
         res.status(200).json(newBooking);
     } catch (error) {
         console.log(error);
@@ -267,7 +266,7 @@ export const bookTurf = async (req, res) => {
 
 export const paymentProcess = async (req, res) => {
     try {
-        const bookingId = req.params.id; 
+        const bookingId = req.params.id;
         const result = await bookingModel
             .findById(bookingId)
             .populate("user")
@@ -288,70 +287,70 @@ export const paymentProcess = async (req, res) => {
 export const bookingSuccess = async (req, res) => {
     const ID = req.params.id;
     try {
-      const result = await bookingModel
-        .findById(ID)
-        .populate("user")
-        .populate("turf");
-      if (result) {
-        await bookingModel.findByIdAndUpdate(ID, { payment: "Success" });
-        res.status(200).json(result);
-      }
+        const result = await bookingModel
+            .findById(ID)
+            .populate("user")
+            .populate("turf");
+        if (result) {
+            await bookingModel.findByIdAndUpdate(ID, { payment: "Success" });
+            res.status(200).json(result);
+        }
     } catch (error) {
-      console.log(error);
-      res.status(500).json(error?.response?.data);
+        console.log(error);
+        res.status(500).json(error?.response?.data);
     }
 };
 
-export const userProfile=async(req,res)=>{
+export const userProfile = async (req, res) => {
     try {
         let token = req.headers.authorization
-        const key =  jwt.verify(token, process.env.TOKEN_SECRET)
-        const ID= key.userId
+        const key = jwt.verify(token, process.env.TOKEN_SECRET)
+        const ID = key.userId
         console.log(ID)
-        const user= await userModel.findById(ID,{ __v: 0 })
-        if(!user){
-            res.status(401).json({message:'User Not Found'})
+        const user = await userModel.findById(ID, { __v: 0 })
+        if (!user) {
+            res.status(401).json({ message: 'User Not Found' })
         } else {
             res.status(200).json(user)
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error?.response?.data)        
+        res.status(500).json(error?.response?.data)
     }
 }
 
 export const updateProfile = async (req, res) => {
     try {
-      let token = req.headers.authorization;
-      const key = jwt.verify(token, process.env.TOKEN_SECRET);
-      const ID = key.userId;      
-      const { name, email, phone } = req.body.users || {};
-      if (!name || !email || !phone) {
-        res.status(401).json({ message: "Data Not Found" });
-      }
-      const updatedUser = await userModel.findByIdAndUpdate(
-        { _id: ID },
-        { name, email, phone },
-        { new: true }
-      );
-      if (!updatedUser) {
-        res.status(401).json({ message: "User Not Found" });
-      }
-      res.status(200).json(updatedUser);
+        let token = req.headers.authorization;
+        const key = jwt.verify(token, process.env.TOKEN_SECRET);
+        const ID = key.userId;
+        const { name, email, phone } = req.body.users || {};
+        if (!name || !email || !phone) {
+            res.status(401).json({ message: "Data Not Found" });
+        }
+        const updatedUser = await userModel.findByIdAndUpdate(
+            { _id: ID },
+            { name, email, phone },
+            { new: true }
+        );
+        if (!updatedUser) {
+            res.status(401).json({ message: "User Not Found" });
+        }
+        res.status(200).json(updatedUser);
     } catch (error) {
-      console.log(error);
-      res.status(500).json(error?.response?.data);
+        console.log(error);
+        res.status(500).json(error?.response?.data);
     }
-  }; 
+};
 
 
-export const viewBookings=async(req,res)=>{
+export const viewBookings = async (req, res) => {
     try {
-        const date=new Date()
+        const date = new Date()
         const user = req.userId;
         // const user=req.user.id
-        const bookings=await bookingModel.find({user ,payment:{$ne:"Pending"}   }).populate("turf")
-        const UpcomingBookings=await bookingModel.find({user,bookDate:{$gte:date}}).populate('turf')
+        const bookings = await bookingModel.find({ user, payment: { $ne: "Pending" } }).populate("turf")
+        const UpcomingBookings = await bookingModel.find({ user, bookDate: { $gte: date } }).populate('turf')
         res.status(200).json(bookings)
     } catch (error) {
         console.log(error)
@@ -359,32 +358,67 @@ export const viewBookings=async(req,res)=>{
     }
 }
 
-export const cancelBooking=async(req,res)=>{
+export const cancelBooking = async (req, res) => {
     try {
-        const userID=req.userId
-        const bookingId=req.body.bookingId
-        const book=await bookingModel.findOne({_id:bookingId}).populate("turf")
+        const userID = req.userId
+        const bookingId = req.body.bookingId
+        const book = await bookingModel.findOne({ _id: bookingId }).populate("turf")
         const price = book.turf.price
-        const refundMoney = await userModel.findByIdAndUpdate({_id:userID},{$inc:{wallet:price}},{new:true})
-        if(refundMoney){
-            const cancelled = await bookingModel.findByIdAndUpdate(bookingId,{$set:{payment:"Cancelled"} },{new:true})
-            res.status(200).json({message:"Booking cancelled And money Refunded to Your Wallet"})
-        }else{
-            res.status(404).json({message:"Unable to refund money"})
+        const refundMoney = await userModel.findByIdAndUpdate({ _id: userID }, { $inc: { wallet: price } }, { new: true })
+        if (refundMoney) {
+            const cancelled = await bookingModel.findByIdAndUpdate(bookingId, { $set: { payment: "Cancelled" } }, { new: true })
+            res.status(200).json({ message: "Booking cancelled And money Refunded to Your Wallet" })
+        } else {
+            res.status(404).json({ message: "Unable to refund money" })
         }
     } catch (error) {
-        res.status(500).json({message:"internal server error"})
+        res.status(500).json({ message: "internal server error" })
     }
 }
 
-export const wallet=async(req,res)=>{
+export const wallet = async (req, res) => {
     try {
-        const user =req.userId
-        const userData=await userModel.findOne({_id:user})
-        const wallet=userData.wallet
-        res.status(200).json(wallet)  
+        const user = req.userId
+        const userData = await userModel.findOne({ _id: user })
+        const wallet = userData.wallet
+        res.status(200).json(wallet)
     } catch (error) {
-       res.status(500).json(error?.response?.data) 
+        res.status(500).json(error?.response?.data)
     }
 }
 
+export const reviewSubmit = async (req, res) => {
+    try {
+        const { id, name, review, rating } = req.body;
+        console.log(req.body)
+        const turf = await turfModel.findById({ _id: id });
+        const newReview = {
+            name,
+            review,
+            rating,
+        };
+        turf.reviews.push(newReview);
+        const ratings = turf.reviews.map((review) => review.rating);
+        const averageRating = ratings.reduce((a, b) => a + b) / ratings.length;
+        turf.rating = averageRating;
+        await turf.save();
+        res.status(200).json(turf);
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
+
+export const getReviews = async (req, res) => {
+    try {
+        console.log("firstfirstfirstfirst")
+        const turfId = req.params.id
+        console.log(turfId, '///////')
+        const reviews = await turfModel.findById({ _id: turfId })
+        res.status(200).json({ reviews:reviews.reviews.reverse() })
+    } catch (error) {
+        console.log(error);
+        res.status(500)
+    }
+}

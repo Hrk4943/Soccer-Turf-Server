@@ -82,6 +82,13 @@ const turfSchema=new Schema({
         type:String,
         default:'Pending'
     },
+    rating:{
+        type:Number,
+        default:0
+    },
+    reviews:{
+        type:Array
+    },
 },
 {
     timestamps:true

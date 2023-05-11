@@ -19,9 +19,12 @@ import {
     viewBookings,
     cancelBooking,
     wallet,
+    reviewSubmit,
+    getReviews
     } from '../Controllers/UserControllers.js'
 import {userAuthentication} from '../Authentication/authentication.js'
 import { jwtMiddleware } from '../Authentication/jwtMiddleware.js'
+
 
 router.post('/getOtp',sendOtp)
 router.post('/signup',signUpAndOtpVerify) 
@@ -41,7 +44,8 @@ router.put('/profile',updateProfile)
 router.post('/cancelBooking',jwtMiddleware,cancelBooking)
 router.get('/wallet',jwtMiddleware,wallet)
 router.get('/authenticate',userCheck)
-
+router.post('/reviews',jwtMiddleware,reviewSubmit)
+router.get('/getReviews/:id',getReviews)
 
 
 export default router;

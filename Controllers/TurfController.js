@@ -285,7 +285,6 @@ export const totalCount = async (req, res) => {
         const filterData = dayWiseBookings.filter((item) => {
             return item._id.turf == turf
         }).map((item) => {
-           
             const date = new Date(item._id.bookDate);
             const day = date.getDate().toString().padStart(2, '0');
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -296,9 +295,7 @@ export const totalCount = async (req, res) => {
                 count: item.count
             };
         });
-       
-        const userCount = await bookingModel.find({ turfId }).distinct('user')
-        
+        const userCount = await bookingModel.find({ turfId }).distinct('user') 
         res.status(200).json({ dayWiseBookings: filterData, userCount: userCount?.length, bookingCount })
     } catch (error) {
         res.status(500).json(error?.response?.data)

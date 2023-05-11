@@ -101,7 +101,7 @@ export const logIn = (req, res) => {
 }
 
 export const userCheck = (req, res) => {
-    let token = req.headers?.authorization
+    let token = req.headers.authorization
     try {
         if (token) {
             jwt.verify(token, process.env.TOKEN_SECRET, (err, result) => {

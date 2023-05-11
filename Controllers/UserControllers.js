@@ -272,9 +272,9 @@ export const paymentProcess = async (req, res) => {
             .populate("user")
             .populate("turf");
         const response = await paymentStripe(
-            result?.turf.price,
-            result?.turf.courtName,
-            result?.user.email,
+            result.turf.price,
+            result.turf.courtName,
+            result.user.email,
             bookingId
         );
         res.status(200).json({ response });

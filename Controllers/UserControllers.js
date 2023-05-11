@@ -280,7 +280,7 @@ export const paymentProcess = async (req, res) => {
         res.status(200).json({ response });
     } catch (error) {
         console.log(error);
-        res.status(500).json(error?.response?.data?.message);
+        res.status(500).json(error.response.data.message);
     }
 };
 
@@ -297,7 +297,7 @@ export const bookingSuccess = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json(error?.response?.data);
+        res.status(500).json(error.response.data);
     }
 };
 
@@ -315,7 +315,7 @@ export const userProfile = async (req, res) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json(error?.response?.data)
+        res.status(500).json(error.response.data)
     }
 }
 
@@ -339,7 +339,7 @@ export const updateProfile = async (req, res) => {
         res.status(200).json(updatedUser);
     } catch (error) {
         console.log(error);
-        res.status(500).json(error?.response?.data);
+        res.status(500).json(error.response.data);
     }
 };
 
@@ -354,7 +354,7 @@ export const viewBookings = async (req, res) => {
         res.status(200).json(bookings)
     } catch (error) {
         console.log(error)
-        res.status(500).json(error?.response?.data)
+        res.status(500).json(error.response.data)
     }
 }
 
@@ -383,7 +383,7 @@ export const wallet = async (req, res) => {
         const wallet = userData.wallet
         res.status(200).json(wallet)
     } catch (error) {
-        res.status(500).json(error?.response?.data)
+        res.status(500).json(error.response.data)
     }
 }
 

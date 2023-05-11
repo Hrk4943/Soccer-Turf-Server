@@ -242,7 +242,7 @@ export const bookTurf = async (req, res) => {
         const key = jwt.verify(token, process.env.TOKEN_SECRET)
         const { ID, date, time } = req.body;
         const turf = await turfModel.findById({ _id: ID });
-        const price = turf?.price;
+        const price = turf.price;
         const userId = key.userId;
         const bookDate = new Date(date);
         bookDate.setHours(0);

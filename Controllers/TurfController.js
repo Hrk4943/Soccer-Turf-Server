@@ -261,7 +261,7 @@ export const totalCount = async (req, res) => {
         const turf = req.turfId
         const Turf = await turfModel.findOne({ turf })
         if (!Turf) return res.status(400).json({ message: "No Turfs Found " })
-        const turfId = Turf?._id
+        const turfId = Turf._id
         const bookingCount = await bookingModel.findOne({ turf, payment: "Success" }).count()
         console.log(turf);
         const dayWiseBookings = await bookingModel.aggregate([
